@@ -1,7 +1,7 @@
 import Dependencies._
 
 ThisBuild / organization := "com.estebanmarin"
-ThisBuild / scalaVersion := "3.0.2"
+ThisBuild / scalaVersion := "3.1.0"
 
 ThisBuild / scalacOptions ++=
   Seq(
@@ -38,7 +38,7 @@ lazy val commonScalacOptions = Seq(
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
     // main dependencies
-    libraryDependencies += "dev.zio" %% "zio" % "2.0.0-M2"
+    libraryDependencies += "dev.zio" %% "zio" % "2.0.0-M5"
   ),
   libraryDependencies ++= Seq(
     org.scalatest.scalatest,
