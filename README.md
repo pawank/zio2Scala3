@@ -21,3 +21,5 @@ The above steps are needed only for the first time.
 Set the environment variable before starting `sbt`.
 
 `export NATIVE_IMAGE_INSTALLED=true`
+
+More information at https://github.com/scalameta/sbt-native-image.
