@@ -1,19 +1,13 @@
 import Dependencies._
 
+
 ThisBuild / organization := "com.estebanmarin"
 ThisBuild / scalaVersion := "3.1.0"
 
-ThisBuild / scalacOptions ++=
-  Seq(
-    "-deprecation",
-    "-feature",
-    "-language:implicitConversions",
-    "-unchecked",
-    "-Xfatal-warnings",
-    "-Yexplicit-nulls", // experimental (I've seen it cause issues with circe)
-    "-Ykind-projector",
-    "-Ysafe-init", // experimental (I've seen it cause issues with circe)
-  ) ++ Seq("-rewrite", "-indent") ++ Seq("-source", "future")
+
+run / fork := true
+
+reStart / mainClass := Some("com.estebanmarin.zioplayground.Main")
 
 lazy val `zioplayground` =
   project
@@ -21,6 +15,11 @@ lazy val `zioplayground` =
     .settings(name := "zioplayground")
     .settings(commonSettings)
     .settings(dependencies)
+    .settings(
+	mainClass in (Compile, packageBin) := Some("com.estebanmarin.zioplayground.Main"),
+    	assembly / mainClass := Some("com.estebanmarin.zioplayground.Main"),
+    	assembly / assemblyJarName := s"${name.value}-${version.value}.jar")
+
 
 lazy val commonSettings = commonScalacOptions ++ Seq(
   update / evictionWarningOptions := EvictionWarningOptions.empty
