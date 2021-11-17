@@ -12,9 +12,12 @@ run / fork := true
 
 reStart / mainClass := Some("com.estebanmarin.zioplayground.Main")
 
+nativeImageVersion := "20.3.4"
+
 lazy val `zioplayground` =
   project
     .in(file("."))
+    .enablePlugins(NativeImagePlugin)
     .settings(name := "zioplayground")
     .settings(commonSettings)
     .settings(dependencies)
