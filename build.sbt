@@ -1,9 +1,12 @@
 import Dependencies._
 
+enablePlugins(JavaAppPackaging)
+
 
 ThisBuild / organization := "com.estebanmarin"
 ThisBuild / scalaVersion := "3.1.0"
 
+maintainer := "pawan@rapidor.co"
 
 run / fork := true
 
