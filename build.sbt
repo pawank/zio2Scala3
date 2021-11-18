@@ -43,17 +43,19 @@ lazy val commonScalacOptions = Seq(
 )
 
 
+val quillVersion = "3.10.0.Beta1.6"
+
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
 	  // main dependencies
 	  "dev.zio" %% "zio" % "2.0.0-M5",
-	  "io.getquill" %% "quill-sql" % "3.10.0.Beta1.6",
+	  "io.getquill" %% "quill-sql" % quillVersion,
 	  // Syncronous JDBC Modules
-	  "io.getquill" %% "quill-jdbc" % "3.10.0.Beta1.6",
+	  "io.getquill" %% "quill-jdbc" % quillVersion,
 	  // Or ZIO Modules
-	  "io.getquill" %% "quill-jdbc-zio" % "3.10.0.Beta1.6",
+	  "io.getquill" %% "quill-jdbc-zio" % quillVersion,
 	  // Postgres Async
-	  "io.getquill" %% "quill-jasync-postgres" % "3.10.0.Beta1.6",
+	  "io.getquill" %% "quill-jasync-postgres" % quillVersion,
 	  "org.postgresql"                 % "postgresql"               % "42.2.8"
   ),
   libraryDependencies ++= Seq(
@@ -63,13 +65,13 @@ lazy val dependencies = Seq(
 )
 
 lazy val dbLibs = Seq(
-	"io.getquill" %% "quill-sql" % "3.10.0.Beta1.6",
+	"io.getquill" %% "quill-sql" % quillVersion,
 	// Syncronous JDBC Modules
-	"io.getquill" %% "quill-jdbc" % "3.10.0.Beta1.6",
+	"io.getquill" %% "quill-jdbc" % quillVersion,
 	// Or ZIO Modules
-	"io.getquill" %% "quill-jdbc-zio" % "3.10.0.Beta1.6",
+	"io.getquill" %% "quill-jdbc-zio" % quillVersion,
 	// Postgres Async
-	"io.getquill" %% "quill-jasync-postgres" % "3.10.0.Beta1.6",
+	"io.getquill" %% "quill-jasync-postgres" % quillVersion,
 	"org.postgresql"                 % "postgresql"               % "42.2.8"
 )
 
