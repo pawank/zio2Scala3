@@ -8,3 +8,4 @@
 *.worksheet.sc
 metals.sbt
 target/
+set_env.sh

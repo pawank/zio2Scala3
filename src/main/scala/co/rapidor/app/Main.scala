@@ -4,7 +4,7 @@ package app
 import zio._
 
 object Main extends ZIOAppDefault {
-  def testProtoQuill() = {
+  def testQuill() = {
     import io.getquill._
     val ctx = new PostgresJdbcContext(SnakeCase, "ctx")
     import ctx._
@@ -45,13 +45,32 @@ object Main extends ZIOAppDefault {
   //def testProtoQuill() = {
   //  ZIO.succeed(0)
   //}
+  def testArcadeDbQuill() = {
+    import io.getquill._
+    val ctx = new PostgresJdbcContext(SnakeCase, "ctx")
+    import ctx._
+
+    def selectArcadedb = quote {
+      infix"""SELECT id,name FROM Beer""".as[Query[(Int, String)]]
+    }
+
+    val queryResponse1 = ctx.run(selectArcadedb)
+    val r = for {
+      r1 <-
+        ZIO.from({
+          queryResponse1
+        })
+    } yield r1
+    r
+  }
 
   override def run = {
     println("─" * 100)
     println("hello world")
     println("─" * 100)
     (for {
-      v <- testProtoQuill()
+      v <- testQuill()
+      //v <- testArcadeDbQuill()
       _ <- {
         Console.printLine(v)
       }
