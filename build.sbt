@@ -4,7 +4,8 @@ enablePlugins(JavaAppPackaging)
 
 
 ThisBuild / organization := "co.rapidor"
-ThisBuild / scalaVersion := "3.1.0"
+ThisBuild / scalaVersion := "2.13.7"
+//scalaBinaryVersion in ThisBuild := "2.13"
 
 maintainer := "pawan@rapidor.co"
 
@@ -16,6 +17,8 @@ nativeImageVersion := "20.3.4"
 
 //nativeImageGraalHome := file("/Library/Java/JavaVirtualMachines/graalvm-ce-java11-21.1.0/Contents/Home").toPath
 
+//crossScalaVersions := List("2.13.7", "2.12.12")
+
 lazy val `zioplayground` =
   project
     .in(file("."))
@@ -24,6 +27,7 @@ lazy val `zioplayground` =
     .settings(commonSettings)
     .settings(dependencies)
     .settings(
+	//crossScalaVersions := Seq("2.13.7", "2.12.12"),
 	mainClass in (Compile, packageBin) := Some("co.rapidor.app.Main"),
     	assembly / mainClass := Some("co.rapidor.app.Main"),
     	assembly / assemblyJarName := s"${name.value}-${version.value}.jar")
@@ -43,7 +47,7 @@ lazy val commonScalacOptions = Seq(
 )
 
 
-val quillVersion = "3.10.0.Beta1.6"
+val quillVersion = "3.7.1"
 val arcadeDbVersion = "21.10.2"
 
 lazy val dependencies = Seq(
