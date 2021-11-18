@@ -47,7 +47,7 @@ lazy val commonScalacOptions = Seq(
 )
 
 
-val quillVersion = "3.7.1"
+val quillVersion = "3.8.0"
 val arcadeDbVersion = "21.10.2"
 
 lazy val dependencies = Seq(
