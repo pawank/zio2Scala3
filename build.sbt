@@ -44,6 +44,7 @@ lazy val commonScalacOptions = Seq(
 
 
 val quillVersion = "3.10.0.Beta1.6"
+val arcadeDbVersion = "21.10.2"
 
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
@@ -56,7 +57,9 @@ lazy val dependencies = Seq(
 	  "io.getquill" %% "quill-jdbc-zio" % quillVersion,
 	  // Postgres Async
 	  "io.getquill" %% "quill-jasync-postgres" % quillVersion,
-	  "org.postgresql"                 % "postgresql"               % "42.2.8"
+          //"com.arcadedb" % "arcadedb-postgresw" % arcadeDbVersion,
+          //("com.arcadedb" % "arcadedb-postgresw" % arcadeDbVersion).cross(CrossVersion.for3Use2_13),
+	  "org.postgresql"                 % "postgresql"               % "42.2.24"
   ),
   libraryDependencies ++= Seq(
     org.scalatest.scalatest,
