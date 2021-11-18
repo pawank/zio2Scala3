@@ -45,16 +45,19 @@ object Main extends ZIOAppDefault {
   //def testProtoQuill() = {
   //  ZIO.succeed(0)
   //}
-  def testArcadeDbQuill() = {
+
+  def testOrientDbQuill() = {
     import io.getquill._
-    val ctx = new PostgresJdbcContext(SnakeCase, "ctx")
+    val ctx = new OrientDBSyncContext(Literal, "orientDbContext")
     import ctx._
 
-    def selectArcadedb = quote {
-      infix"""SELECT id,name FROM Beer""".as[Query[(Int, String)]]
+    case class NameValue(id: Int, name: String, code: String)
+
+    def selectQ = quote {
+      query[NameValue].filter(c => c.id == 2)
     }
 
-    val queryResponse1 = ctx.run(selectArcadedb)
+    val queryResponse1 = ctx.run(selectQ)
     val r = for {
       r1 <-
         ZIO.from({
@@ -69,10 +72,10 @@ object Main extends ZIOAppDefault {
     println("hello world")
     println("─" * 100)
     (for {
-      v <- testQuill()
-      //v <- testArcadeDbQuill()
+      //v <- testQuill()
+      v2 <- testOrientDbQuill()
       _ <- {
-        Console.printLine(v)
+        Console.printLine(v2)
       }
     } yield ()).exitCode
   }

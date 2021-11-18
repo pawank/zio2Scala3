@@ -61,6 +61,8 @@ lazy val dependencies = Seq(
 	  "io.getquill" %% "quill-jdbc-zio" % quillVersion,
 	  // Postgres Async
 	  "io.getquill" %% "quill-jasync-postgres" % quillVersion,
+          "io.getquill" %% "quill-orientdb" % quillVersion,
+          "com.orientechnologies" % "orientdb-client" % "3.2.3",
           //"com.arcadedb" % "arcadedb-postgresw" % arcadeDbVersion,
           //("com.arcadedb" % "arcadedb-postgresw" % arcadeDbVersion).cross(CrossVersion.for3Use2_13),
 	  "org.postgresql"                 % "postgresql"               % "42.2.24"
