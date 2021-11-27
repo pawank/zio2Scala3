@@ -61,10 +61,14 @@ lazy val dependencies = Seq(
 	  "io.getquill" %% "quill-jdbc-zio" % quillVersion,
 	  // Postgres Async
 	  "io.getquill" %% "quill-jasync-postgres" % quillVersion,
-          "io.getquill" %% "quill-orientdb" % quillVersion,
-          "com.orientechnologies" % "orientdb-client" % "3.2.3",
-          //"com.arcadedb" % "arcadedb-postgresw" % arcadeDbVersion,
-          //("com.arcadedb" % "arcadedb-postgresw" % arcadeDbVersion).cross(CrossVersion.for3Use2_13),
+    //"io.getquill" %% "quill-orientdb" % quillVersion,
+    //"com.orientechnologies" % "orientdb-client" % "3.2.3",
+    //"com.arcadedb" % "arcadedb-postgresw" % arcadeDbVersion,
+    //("com.arcadedb" % "arcadedb-postgresw" % arcadeDbVersion).cross(CrossVersion.for3Use2_13),
+    "com.github.ghostdogpr" %% "caliban" % "1.2.4",
+"com.github.ghostdogpr" %% "caliban-zio-http"   % "1.2.4", // routes for zio-http
+"com.github.ghostdogpr" %% "caliban-tapir"      % "1.2.4", // interop with tapir
+"com.github.ghostdogpr" %% "caliban-federation" % "1.2.4", // interop with apollo federation
 	  "org.postgresql"                 % "postgresql"               % "42.2.24"
   ),
   libraryDependencies ++= Seq(

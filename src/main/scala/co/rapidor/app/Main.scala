@@ -46,6 +46,7 @@ object Main extends ZIOAppDefault {
   //  ZIO.succeed(0)
   //}
 
+  /*
   def testOrientDbQuill() = {
     import io.getquill._
     val ctx = new OrientDBSyncContext(Literal, "orientDbContext")
@@ -66,16 +67,17 @@ object Main extends ZIOAppDefault {
     } yield r1
     r
   }
+  */
 
   override def run = {
     println("─" * 100)
     println("hello world")
     println("─" * 100)
     (for {
-      //v <- testQuill()
-      v2 <- testOrientDbQuill()
+      v <- testQuill()
+      //v <- testOrientDbQuill()
       _ <- {
-        Console.printLine(v2)
+        Console.printLine(v)
       }
     } yield ()).exitCode
   }
