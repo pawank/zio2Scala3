@@ -74,12 +74,9 @@ lazy val commonScalacOptions = Seq(
 
 val zioVersion = "2.0.0-M6-2"
 val zioLoggingVersion = "0.5.14"
-val quillVersion = "3.10.0.Beta1.6"
-val blindsightVersion = "1.5.2"
-val terseLogbackVersion = "1.0.1"
 
 lazy val logging = (project in file("logging")).settings(
-  libraryDependencies += "com.tersesystems.logback" % "logback-structured-config" % terseLogbackVersion
+  libraryDependencies += blindsightLogbackStructuredConfig
 )
 
 lazy val impl = (project in file("impl")).settings(
@@ -89,25 +86,46 @@ lazy val impl = (project in file("impl")).settings(
 
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
-	  "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0",
-          "com.lihaoyi" %% "sourcecode" % "0.2.7",
 	  // main dependencies
 	  "dev.zio" %% "zio" % zioVersion,
-          //"dev.zio" %% "zio-logging" % zioLoggingVersion,
-	  "io.getquill" %% "quill-sql" % quillVersion,
-	  // Syncronous JDBC Modules
-	  "io.getquill" %% "quill-jdbc" % quillVersion,
-	  // Or ZIO Modules
-	  "io.getquill" %% "quill-jdbc-zio" % quillVersion,
-	  // Postgres Async
-	  "io.getquill" %% "quill-jasync-postgres" % quillVersion,
-          "com.tersesystems.blindsight" %% "blindsight-logstash" % blindsightVersion,
-          "com.tersesystems.blindsight" %% "blindsight-generic" % blindsightVersion,
-          "com.tersesystems.blindsight" %% "blindsight-jsonld" % blindsightVersion,
-          "com.tersesystems.blindsight" %% "blindsight-ringbuffer" % blindsightVersion,
-          "com.tersesystems.logback" % "logback-structured-config" % terseLogbackVersion,
-	  "org.postgresql"                 % "postgresql"               % "42.2.8"
+          "dev.zio" %% "zio-logging" % zioLoggingVersion,
+	  "dev.zio" %% "zio-logging-slf4j" % zioLoggingVersion,
+	  "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0",
+          "com.lihaoyi" %% "sourcecode" % "0.2.7"
   ),
+    libraryDependencies += postgresql,
+    libraryDependencies += quillSql,
+    libraryDependencies += quillJdbc,
+    libraryDependencies += quillZio,
+    libraryDependencies += quillPostgresAsync,
+
+    //libraryDependencies += ,
+
+    // internal jdk libraries use java util logging
+    libraryDependencies += julToSlf4j,
+
+    // Basic logback
+    libraryDependencies += logbackClassic,
+    libraryDependencies += logstashLogbackEncoder,
+    libraryDependencies += janino,
+    libraryDependencies += jansi,
+    
+    // sqlite appender
+    libraryDependencies += blackliteLogback,
+
+    // terse-logback utilities
+    libraryDependencies += terseLogbackClassic,
+    libraryDependencies += logbackUniqueId,
+
+    // Blindsight API and logstash-logback-encoder integration
+    libraryDependencies += blindsightLogstash,
+    libraryDependencies += blindsightInspection,
+    libraryDependencies += blindsightScripting,
+    libraryDependencies += blindsightGenric,
+    libraryDependencies += blindsightJsonld,
+    libraryDependencies += blindsightRingbuffer,
+    libraryDependencies += blindsightLogbackStructuredConfig,
+
   libraryDependencies ++= Seq(
     org.scalatest.scalatest,
     org.scalatestplus.`scalacheck-1-15`,
@@ -120,17 +138,6 @@ lazy val dependencies = Seq(
 
 dependencyOverrides ++= Seq(
           "com.lihaoyi" %% "sourcecode" % "0.2.7"
-)
-
-lazy val dbLibs = Seq(
-	"io.getquill" %% "quill-sql" % quillVersion,
-	// Syncronous JDBC Modules
-	"io.getquill" %% "quill-jdbc" % quillVersion,
-	// Or ZIO Modules
-	"io.getquill" %% "quill-jdbc-zio" % quillVersion,
-	// Postgres Async
-	"io.getquill" %% "quill-jasync-postgres" % quillVersion,
-	"org.postgresql"                 % "postgresql"               % "42.2.8"
 )
 
 
