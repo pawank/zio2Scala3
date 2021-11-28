@@ -37,7 +37,7 @@ nativeImageOptions ++= List(
   "-H:+StackTrace",
   "-H:+TraceLoggingFeature",
   "-H:+ReportExceptionStackTraces",
-  "-H:+TraceClassInitialization",
+  //"-H:+TraceClassInitialization",
   "--allow-incomplete-classpath",
   "--report-unsupported-elements-at-runtime",
 )
@@ -47,6 +47,7 @@ nativeImageOptions ++= List(
 lazy val `zioplayground` =
   project
     .in(file("."))
+    .aggregate(logging, impl)
     .enablePlugins(NativeImagePlugin)
     .settings(name := "ExampleScala3ZIO2")
     .settings(commonSettings)
@@ -75,6 +76,16 @@ val zioVersion = "2.0.0-M6-2"
 val zioLoggingVersion = "0.5.14"
 val quillVersion = "3.10.0.Beta1.6"
 val blindsightVersion = "1.5.2"
+val terseLogbackVersion = "1.0.1"
+
+lazy val logging = (project in file("logging")).settings(
+  libraryDependencies += "com.tersesystems.logback" % "logback-structured-config" % terseLogbackVersion
+)
+
+lazy val impl = (project in file("impl")).settings(
+  // all your code dependencies + slf4j-api
+  libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.25"
+).dependsOn(logging)
 
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
@@ -94,6 +105,7 @@ lazy val dependencies = Seq(
           "com.tersesystems.blindsight" %% "blindsight-generic" % blindsightVersion,
           "com.tersesystems.blindsight" %% "blindsight-jsonld" % blindsightVersion,
           "com.tersesystems.blindsight" %% "blindsight-ringbuffer" % blindsightVersion,
+          "com.tersesystems.logback" % "logback-structured-config" % terseLogbackVersion,
 	  "org.postgresql"                 % "postgresql"               % "42.2.8"
   ),
   libraryDependencies ++= Seq(
