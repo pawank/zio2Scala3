@@ -1,15 +1,12 @@
 package co.rapidor
 package app
 
+import com.tersesystems.blindsight._
+import com.tersesystems.blindsight.DSL._
+
 import zio.*
 
-object Main extends ZIOAppDefault:
-  println("─" * 100)
-
-  println("hello world")
-
-  println("─" * 100)
-
+class Examples {
   def testProtoQuill() = {
 
     import io.getquill._
@@ -48,17 +45,48 @@ object Main extends ZIOAppDefault:
     } yield (r1, r2, r3)
     r
   }
+}
+
+object Main extends ZIOAppDefault:
+  println("─" * 100)
+  println("Welcome...")
+  println("─" * 100)
+
+  private def loggerContext = {
+    import ch.qos.logback.classic.LoggerContext
+    org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
+  }
+
+  def startLogback() = {
+    // startLogback should run in main class static block or as first statement
+    // you need this to ensure you initialize Logback **before** JUL logging.
+    loggerContext
+  }
+
+  def stopLogback(): Unit = {
+    // ideally stop explicitly for async loggers (there is also a shutdown hook just in case)
+    // http://logback.qos.ch/manual/configuration.html#stopContext
+    loggerContext.stop()
+  }
 
   override def run = {
     //import zio.logging._
     //import zio.logging.slf4j.bridge.initializeSlf4jBridge
     //val env = Logging.consoleErr() >>> initializeSlf4jBridge
-    (for {
+    startLogback()
+    val logger: Logger = LoggerFactory.getLogger
+    logger.info("Starting the program")
+    val example = new Examples
+    val program = (for {
       //logger <- ZIO.from(startLogback())
-      v <- testProtoQuill()
+      v <- example.testProtoQuill()
       _ <- {
-        Console.printLine(v)
+        //Console.printLine(v)
+        ZIO.from(logger.info(v.toString()))
       }
-      //stopLogger <- ZIO.from(stopLogback())
+      _ <- ZIO.from(logger.info("Stopping the program"))
+      stopLogger <- ZIO.from(stopLogback())
     } yield ()).exitCode
+    //stopLogback()
+    program
   }

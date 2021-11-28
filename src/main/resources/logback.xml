@@ -64,7 +64,7 @@
     <root level="INFO">
         <appender class="com.tersesystems.logback.uniqueid.UniqueIdComponentAppender">
             <appender class="com.tersesystems.logback.classic.NanoTimeComponentAppender">
-                <appender-ref ref="CONSOLE"/>
+                <!--<appender-ref ref="CONSOLE"/>-->
                 <appender-ref ref="BLACKLITE"/>
                 <appender-ref ref="ASYNCJSON"/>
             </appender>
