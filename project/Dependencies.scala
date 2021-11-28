@@ -41,6 +41,10 @@ object Dependencies {
   val quillZio = "io.getquill" %% "quill-jdbc-zio" % quillVersion
   val quillPostgresAsync =  "io.getquill" %% "quill-jasync-postgres" % quillVersion
 
+  val refined = "eu.timepit" %% "refined"                 % "0.9.27"
+  val refinedScalaz = "eu.timepit" %% "refined-scalaz"          % "0.9.27"
+  val refinedScodec = "eu.timepit" %% "refined-scodec"          % "0.9.27"
+
   case object org {
     case object scalatest {
       val scalatest =
