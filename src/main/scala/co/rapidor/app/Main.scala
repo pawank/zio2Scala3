@@ -1,10 +1,11 @@
 package co.rapidor
 package app
 
-import com.tersesystems.blindsight._
-import com.tersesystems.blindsight.DSL._
-
+import com.tersesystems.blindsight.*
+import com.tersesystems.blindsight.DSL.*
 import zio.*
+import zio.zmx.*
+import zio.zmx.diagnostics.*
 
 class Examples {
   def testProtoQuill() = {
@@ -110,6 +111,9 @@ object Main extends ZIOAppDefault:
     // http://logback.qos.ch/manual/configuration.html#stopContext
     loggerContext.stop()
   }
+
+  //override val runtime = Runtime.default.mapRuntimeConfig(_.copy(supervisor = ZMXSupervisor))
+  //val diagnosticsLayer: ZLayer[ZEnv, Throwable, Diagnostics] = Diagnostics.make("localhost", 1111)
 
   override def run = {
     startLogback()
