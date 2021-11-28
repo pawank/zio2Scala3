@@ -90,6 +90,7 @@ lazy val dependencies = Seq(
 	  "dev.zio" %% "zio" % zioVersion,
           "dev.zio" %% "zio-logging" % zioLoggingVersion,
 	  "dev.zio" %% "zio-logging-slf4j" % zioLoggingVersion,
+          //"dev.zio" %% "zio-logging-slf4j-bridge" % zioLoggingVersion,
 	  "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0",
           "com.lihaoyi" %% "sourcecode" % "0.2.7"
   ),

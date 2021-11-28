@@ -10,8 +10,8 @@ object Main extends ZIOAppDefault:
 
   println("─" * 100)
 
-
   def testProtoQuill() = {
+
     import io.getquill._
     import io.getquill.Dsl.autoQuote
     import io.getquill.autoQuote
@@ -50,10 +50,15 @@ object Main extends ZIOAppDefault:
   }
 
   override def run = {
+    //import zio.logging._
+    //import zio.logging.slf4j.bridge.initializeSlf4jBridge
+    //val env = Logging.consoleErr() >>> initializeSlf4jBridge
     (for {
+      //logger <- ZIO.from(startLogback())
       v <- testProtoQuill()
       _ <- {
         Console.printLine(v)
       }
+      //stopLogger <- ZIO.from(stopLogback())
     } yield ()).exitCode
   }
