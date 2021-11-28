@@ -4,7 +4,10 @@ enablePlugins(JavaAppPackaging)
 
 
 ThisBuild / organization := "co.rapidor"
+//ThisBuild / scalaVersion := "2.13.7"
 ThisBuild / scalaVersion := "3.1.0"
+
+//crossScalaVersions := Seq("2.13.7", "3.1.0")
 
 maintainer := "pawan@rapidor.co"
 
@@ -68,12 +71,18 @@ lazy val commonScalacOptions = Seq(
 )
 
 
+val zioVersion = "2.0.0-M6-2"
+val zioLoggingVersion = "0.5.14"
 val quillVersion = "3.10.0.Beta1.6"
+val blindsightVersion = "1.5.2"
 
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
+	  "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0",
+          "com.lihaoyi" %% "sourcecode" % "0.2.7",
 	  // main dependencies
-	  "dev.zio" %% "zio" % "2.0.0-M5",
+	  "dev.zio" %% "zio" % zioVersion,
+          //"dev.zio" %% "zio-logging" % zioLoggingVersion,
 	  "io.getquill" %% "quill-sql" % quillVersion,
 	  // Syncronous JDBC Modules
 	  "io.getquill" %% "quill-jdbc" % quillVersion,
@@ -81,12 +90,24 @@ lazy val dependencies = Seq(
 	  "io.getquill" %% "quill-jdbc-zio" % quillVersion,
 	  // Postgres Async
 	  "io.getquill" %% "quill-jasync-postgres" % quillVersion,
+          "com.tersesystems.blindsight" %% "blindsight-logstash" % blindsightVersion,
+          "com.tersesystems.blindsight" %% "blindsight-generic" % blindsightVersion,
+          "com.tersesystems.blindsight" %% "blindsight-jsonld" % blindsightVersion,
+          "com.tersesystems.blindsight" %% "blindsight-ringbuffer" % blindsightVersion,
 	  "org.postgresql"                 % "postgresql"               % "42.2.8"
   ),
   libraryDependencies ++= Seq(
     org.scalatest.scalatest,
     org.scalatestplus.`scalacheck-1-15`,
-  ).map(_ % Test)
+  ).map(_ % Test),
+  libraryDependencies := libraryDependencies.value.map(_ excludeAll (
+      ExclusionRule(organization = "com.lihaoyi", name = "sourcecode_2.13"),
+      ExclusionRule(organization = "org.scala-lang.modules", name = "scala-collection-compat_2.13"),
+  ))
+)
+
+dependencyOverrides ++= Seq(
+          "com.lihaoyi" %% "sourcecode" % "0.2.7"
 )
 
 lazy val dbLibs = Seq(
