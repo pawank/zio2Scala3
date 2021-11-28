@@ -14,8 +14,8 @@
     <logger name="sttp.client3.asynchttpclient.zio" level="DEBUG"/>
 
     <root level="debug">
-        <appender-ref ref="STDOUT" />
-<!--        <appender-ref ref="logstash" />-->
+        <!--<appender-ref ref="STDOUT" />-->
+        <appender-ref ref="logstash" />
     </root>
 
 </configuration>

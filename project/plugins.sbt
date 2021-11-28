@@ -1,5 +1,5 @@
 //ThisBuild / scalaVersion := "3.1.0"
-ThisBuild / scalaVersion := "2.12.15"
+//ThisBuild / scalaVersion := "2.12.15"
 ThisBuild / useSuperShell := false
 ThisBuild / autoStartServer := false
 
