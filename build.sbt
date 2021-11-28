@@ -14,6 +14,31 @@ reStart / mainClass := Some("co.rapidor.app.Main")
 
 nativeImageVersion := "20.3.4"
 
+nativeImageOptions ++= List(
+  "--initialize-at-build-time", 
+  "--verbose",
+  "--no-server",
+  "--no-fallback",
+  "--static",
+  "--install-exit-handlers",
+  "--enable-http",
+  "--enable-https",
+  "--enable-all-security-services",
+  "--libc=musl",
+  "-H:+RemoveSaturatedTypeFlows",
+  "-H:+ReportExceptionStackTraces",
+  "-H:+PrintAOTCompilation",
+  "-H:+PrintClassInitialization",
+  "-H:+PrintFeatures",
+  "-H:+PrintStaticTruffleBoundaries",
+  "-H:+StackTrace",
+  "-H:+TraceLoggingFeature",
+  "-H:+ReportExceptionStackTraces",
+  "-H:+TraceClassInitialization",
+  "--allow-incomplete-classpath",
+  "--report-unsupported-elements-at-runtime",
+)
+
 //nativeImageGraalHome := file("/Library/Java/JavaVirtualMachines/graalvm-ce-java11-21.1.0/Contents/Home").toPath
 
 lazy val `zioplayground` =
@@ -94,7 +119,7 @@ ThisBuild / assemblyMergeStrategy := {
   case PathList(ps @ _*) if ps.last endsWith "Row.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "reflect.properties" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "io.netty.versions.properties" => MergeStrategy.last
-  case PathList(ps @ _*) if ps.last endsWith "native-image.properties" => MergeStrategy.last
+  //case PathList(ps @ _*) if ps.last endsWith "native-image.properties" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "reflection-config.json" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "module-info.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "StaticLoggerBinder.class" => MergeStrategy.last
