@@ -96,6 +96,7 @@ lazy val dependencies = Seq(
 	  "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0",
           "com.lihaoyi" %% "sourcecode" % "0.2.7"
   ),
+    libraryDependencies += zioHttp,
     libraryDependencies += refined,
     //libraryDependencies += refinedScalaz,
     //libraryDependencies += refinedScodec,

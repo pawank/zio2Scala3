@@ -113,7 +113,7 @@ object Main extends ZIOAppDefault:
   }
 
   //override val runtime = Runtime.default.mapRuntimeConfig(_.copy(supervisor = ZMXSupervisor))
-  //val diagnosticsLayer: ZLayer[ZEnv, Throwable, Diagnostics] = Diagnostics.make("localhost", 1111)
+  //val diagnosticsLayer: ZLayer[ZEnv, Throwable, zio.zmx.diagnostics.Diagnostics] = Diagnostics.make("localhost", 1111)
 
   override def run = {
     startLogback()

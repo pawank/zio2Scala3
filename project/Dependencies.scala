@@ -6,6 +6,8 @@ object Dependencies {
   val terseLogback = "1.0.1"
   val blacklite = "1.0.1"
   val quillVersion = "3.10.0.Beta1.6"
+  val zioHttpVersion    = "1.0.0.0-RC17"
+
 
   // Basic Logback
   val logbackClassic = "ch.qos.logback" % "logback-classic" % "1.2.3"
@@ -44,6 +46,8 @@ object Dependencies {
   val refined = "eu.timepit" %% "refined"                 % "0.9.27"
   val refinedScalaz = "eu.timepit" %% "refined-scalaz"          % "0.9.27"
   val refinedScodec = "eu.timepit" %% "refined-scodec"          % "0.9.27"
+
+  val zioHttp = "io.d11"                        %% "zhttp"                    % zioHttpVersion
 
   case object org {
     case object scalatest {
