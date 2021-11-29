@@ -47,6 +47,8 @@ object Dependencies {
   val refinedScalaz = "eu.timepit" %% "refined-scalaz"          % "0.9.27"
   val refinedScodec = "eu.timepit" %% "refined-scodec"          % "0.9.27"
 
+  val jwtScala = "com.github.jwt-scala"          %% "jwt-core"                 % "9.0.2"
+
   val zioHttp = "io.d11"                        %% "zhttp"                    % zioHttpVersion
 
   case object org {

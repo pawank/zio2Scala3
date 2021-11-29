@@ -74,6 +74,7 @@ lazy val commonScalacOptions = Seq(
 
 val zioVersion = "2.0.0-M6-2"
 val zioLoggingVersion = "0.5.14"
+val zioJsonVersion = "0.2.0-M3"
 val zioZmxVersion = "0.0.11"
 
 lazy val logging = (project in file("logging")).settings(
@@ -89,6 +90,7 @@ lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
 	  // main dependencies
 	  "dev.zio" %% "zio" % zioVersion,
+          "dev.zio"                       %% "zio-json"                 % zioJsonVersion,
           "dev.zio" %% "zio-logging" % zioLoggingVersion,
 	  "dev.zio" %% "zio-logging-slf4j" % zioLoggingVersion,
           "dev.zio" %% "zio-zmx" % zioZmxVersion,
@@ -96,6 +98,7 @@ lazy val dependencies = Seq(
 	  "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0",
           "com.lihaoyi" %% "sourcecode" % "0.2.7"
   ),
+    libraryDependencies += jwtScala,
     libraryDependencies += zioHttp,
     libraryDependencies += refined,
     //libraryDependencies += refinedScalaz,
