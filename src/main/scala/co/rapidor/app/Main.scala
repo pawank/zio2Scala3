@@ -4,10 +4,8 @@ package app
 import com.tersesystems.blindsight.*
 import com.tersesystems.blindsight.DSL.*
 import zio.*
-import zio.zmx.*
-import zio.zmx.diagnostics.*
 
-class Examples {
+object Examples {
   def testProtoQuill() = {
 
     import io.getquill._
@@ -120,10 +118,6 @@ object Main extends ZIOAppDefault:
     //More examples at: https://github.com/tersesystems/blindsight-starter/blob/main/src/main/scala/example/Runner.scala
     val logger: Logger = LoggerFactory.getLogger
     logger.info("Starting the program")
-    val correlationId: String = "123"
-    val clogger = logger.withMarker(bobj("correlationId" -> correlationId))
-    val example = new Examples
-    example.testBlindsightLogging(clogger)
     /*
     import java.util.UUID
     import zio.logging._
@@ -153,7 +147,7 @@ object Main extends ZIOAppDefault:
 
     val program = (for {
       //logger <- ZIO.from(startLogback())
-      v <- example.testProtoQuill()
+      v <- Examples.testProtoQuill()
       _ <- {
         //Console.printLine(v)
         ZIO.from(logger.info(v.toString()))

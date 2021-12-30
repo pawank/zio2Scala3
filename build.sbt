@@ -11,6 +11,8 @@ ThisBuild / scalaVersion := "3.1.0"
 
 maintainer := "pawan@rapidor.co"
 
+//scalacOptions += "-source:3.0-migration"
+
 run / fork := true
 
 reStart / mainClass := Some("co.rapidor.app.Main")
@@ -72,10 +74,10 @@ lazy val commonScalacOptions = Seq(
 )
 
 
-val zioVersion = "2.0.0-M6-2"
+val zioVersion = "2.0.0-RC1"
 val zioLoggingVersion = "0.5.14"
-val zioJsonVersion = "0.2.0-M3"
-val zioZmxVersion = "0.0.11"
+val zioJsonVersion = "0.3.0-RC1-1"
+val zioZmxVersion = "2.0.0-M1"
 
 lazy val logging = (project in file("logging")).settings(
   libraryDependencies += blindsightLogbackStructuredConfig
@@ -91,9 +93,11 @@ lazy val dependencies = Seq(
 	  // main dependencies
 	  "dev.zio" %% "zio" % zioVersion,
           "dev.zio"                       %% "zio-json"                 % zioJsonVersion,
+          //"dev.zio"                       % "zio-json_2.13"                 % zioJsonVersion,
           "dev.zio" %% "zio-logging" % zioLoggingVersion,
 	  "dev.zio" %% "zio-logging-slf4j" % zioLoggingVersion,
-          "dev.zio" %% "zio-zmx" % zioZmxVersion,
+          //"dev.zio" %% "zio-zmx" % zioZmxVersion,
+          //"dev.zio" % "zio-zmx_2.13" % zioZmxVersion,
           //"dev.zio" %% "zio-logging-slf4j-bridge" % zioLoggingVersion,
 	  "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0",
           "com.lihaoyi" %% "sourcecode" % "0.2.7"
