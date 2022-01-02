@@ -1,9 +1,20 @@
 package co.rapidor
 package app
 
+import java.nio.file.Paths
+import zio.*
+import zio.stream.*
+
+import caliban.*
+import zhttp.http.*
+import zhttp.service.Server
+
 import com.tersesystems.blindsight.*
 import com.tersesystems.blindsight.DSL.*
-import zio.*
+
+import co.rapidor.app.services.DatabaseHistoryServiceLive
+import co.rapidor.app.services.*
+import co.rapidor.app.graphql.*
 
 object Examples {
   def testProtoQuill() = {
@@ -13,7 +24,7 @@ object Examples {
     import io.getquill.autoQuote
     val ctx = new PostgresJdbcContext(SnakeCase, "ctx")
     import ctx._
-    case class Version(version:String)
+    case class PgVersion(version:String)
     case class PgDatabase(oid: Int, datname: String)
 
     inline def pgVersionQ = quote {
@@ -93,6 +104,8 @@ object Main extends ZIOAppDefault:
   println("Welcome...")
   println("─" * 100)
 
+
+
   private def loggerContext = {
     import ch.qos.logback.classic.LoggerContext
     org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
@@ -112,6 +125,8 @@ object Main extends ZIOAppDefault:
 
   //override val runtime = Runtime.default.mapRuntimeConfig(_.copy(supervisor = ZMXSupervisor))
   //val diagnosticsLayer: ZLayer[ZEnv, Throwable, zio.zmx.diagnostics.Diagnostics] = Diagnostics.make("localhost", 1111)
+
+  //private val graphiql = Http.succeed(Response.http(content = HttpData.fromStream(ZStream.fromFile(new java.io.File("graphiql.html")))))
 
   override def run = {
     startLogback()
@@ -147,14 +162,28 @@ object Main extends ZIOAppDefault:
 
     val program = (for {
       //logger <- ZIO.from(startLogback())
+      //interpreter <- QueriesApi.api.interpreter
       v <- Examples.testProtoQuill()
       _ <- {
         //Console.printLine(v)
         ZIO.from(logger.info(v.toString()))
       }
+      /*
+      _ <- Server
+        .start(
+          8088,
+          Http.route {
+            case _ -> Root / "api" / "graphql" => ZHttpAdapter.makeHttpService(interpreter)
+            //case _ -> Root / "ws" / "graphql"  => ZHttpAdapter.makeWebSocketService(interpreter)
+            case _ -> Root / "graphiql"        => graphiql
+          }
+        )
+        .forever
+      */
       _ <- ZIO.from(logger.info("Stopping the program"))
       stopLogger <- ZIO.from(stopLogback())
-    } yield ()).provideCustom(Console.live ++ Clock.live).exitCode
-    //stopLogback()
+    } yield ()).provideCustom(Console.live ++ Clock.live ++ DatabaseHistoryServiceLive.layer).exitCode
+    //} yield ()).provideCustom(Console.live ++ Clock.live).exitCode
+  //stopLogback()
     program
   }

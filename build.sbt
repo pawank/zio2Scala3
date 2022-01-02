@@ -20,7 +20,7 @@ reStart / mainClass := Some("co.rapidor.app.Main")
 nativeImageVersion := "20.3.4"
 
 nativeImageOptions ++= List(
-  "--initialize-at-build-time", 
+  "--initialize-at-build-time",
   "--verbose",
   "--no-server",
   "--no-fallback",
@@ -113,9 +113,8 @@ lazy val dependencies = Seq(
     libraryDependencies += quillJdbc,
     libraryDependencies += quillZio,
     libraryDependencies += quillPostgresAsync,
-
+    //libraryDependencies += quillOrientdb,
     //libraryDependencies += ,
-
     // internal jdk libraries use java util logging
     libraryDependencies += julToSlf4j,
 
@@ -124,7 +123,14 @@ lazy val dependencies = Seq(
     libraryDependencies += logstashLogbackEncoder,
     libraryDependencies += janino,
     libraryDependencies += jansi,
-    
+
+    libraryDependencies += pprint,
+
+    libraryDependencies += caliban,
+    libraryDependencies += calibanZioHttp,
+    libraryDependencies += calibanTapir,
+    libraryDependencies += calibanFederation,
+
     // sqlite appender
     libraryDependencies += blackliteLogback,
 
@@ -146,8 +152,10 @@ lazy val dependencies = Seq(
     org.scalatestplus.`scalacheck-1-15`,
   ).map(_ % Test),
   libraryDependencies := libraryDependencies.value.map(_ excludeAll (
-      ExclusionRule(organization = "com.lihaoyi", name = "sourcecode_2.13"),
-      ExclusionRule(organization = "org.scala-lang.modules", name = "scala-collection-compat_2.13"),
+    ExclusionRule(organization = "com.lihaoyi", name = "fansi_2.13"),
+    ExclusionRule(organization = "com.lihaoyi", name = "pprint_2.13"),
+    ExclusionRule(organization = "com.lihaoyi", name = "sourcecode_2.13"),
+    ExclusionRule(organization = "org.scala-lang.modules", name = "scala-collection-compat_2.13"),
   ))
 )
 

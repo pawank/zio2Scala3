@@ -1,13 +1,16 @@
 import sbt._
 
 object Dependencies {
-  
+
   val blindsight = "1.5.2"
   val terseLogback = "1.0.1"
   val blacklite = "1.0.1"
-  val quillVersion = "3.10.0.Beta1.6"
+  val quillVersion = "3.12.0.Beta1.7"
+  //val quillVersion = "3.10.0.Beta1.6"
   val zioHttpVersion    = "1.0.0.0-RC17"
+  val calibanVersion = "1.3.1"
 
+  val pprint = "com.lihaoyi" %% "pprint" % "0.7.1"
 
   // Basic Logback
   val logbackClassic = "ch.qos.logback" % "logback-classic" % "1.2.3"
@@ -38,10 +41,21 @@ object Dependencies {
   val blindsightLogbackStructuredConfig = "com.tersesystems.logback" % "logback-structured-config" % terseLogback
 
   val postgresql = "org.postgresql"                 % "postgresql"               % "42.2.8"
+  //val quillSql =  "io.getquill" % "quill-sql_2.13" % quillVersion
+  //val quillJdbc = "io.getquill" % "quill-jdbc_2.13" % quillVersion
+  //val quillZio = "io.getquill" % "quill-jdbc-zio_2.13" % quillVersion
+  //val quillPostgresAsync =  "io.getquill" % "quill-jasync-postgres_2.13" % quillVersion
+  //val quillOrientdb = "io.getquill" % "quill-orientdb_2.13" % quillVersion
   val quillSql =  "io.getquill" %% "quill-sql" % quillVersion
   val quillJdbc = "io.getquill" %% "quill-jdbc" % quillVersion
   val quillZio = "io.getquill" %% "quill-jdbc-zio" % quillVersion
   val quillPostgresAsync =  "io.getquill" %% "quill-jasync-postgres" % quillVersion
+  val quillOrientdb = "io.getquill" %% "quill-orientdb" % quillVersion
+
+  val caliban = "com.github.ghostdogpr" %% "caliban" % calibanVersion
+  val calibanZioHttp = "com.github.ghostdogpr" %% "caliban-zio-http"   % calibanVersion
+  val calibanTapir = "com.github.ghostdogpr" %% "caliban-tapir"      % calibanVersion
+  val calibanFederation = "com.github.ghostdogpr" %% "caliban-federation" % calibanVersion
 
   val refined = "eu.timepit" %% "refined"                 % "0.9.27"
   val refinedScalaz = "eu.timepit" %% "refined-scalaz"          % "0.9.27"
