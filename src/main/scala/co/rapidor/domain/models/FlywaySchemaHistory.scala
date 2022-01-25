@@ -1,4 +1,4 @@
-package co.rapidor.app.models
+package co.rapidor.models
 
 import java.time.LocalDateTime
 

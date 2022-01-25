@@ -1,6 +1,4 @@
 package co.rapidor
-package app
-
 import java.nio.file.Paths
 import zio.*
 import zio.stream.*
@@ -11,9 +9,9 @@ import zhttp.service.Server
 
 import zio.logging.*
 
-import co.rapidor.app.services.DatabaseHistoryServiceLive
-import co.rapidor.app.services.*
-import co.rapidor.app.graphql.*
+import co.rapidor.services.DatabaseHistoryServiceLive
+import co.rapidor.services.*
+import co.rapidor.graphql.*
 
 object Examples {
 

@@ -13,6 +13,9 @@ object Dependencies {
     val zioPrelude = "dev.zio" %% "zio-prelude" % zioPreludeVersion
     val zioQuery = "dev.zio" %% "zio-query" % zioQueryVersion
     val zioJson = "dev.zio" %% "zio-json" % zioJsonVersion
+    val zioConfig = "dev.zio" %% "zio-config" % zioConfigVersion
+    val zioConfigMagnolia = "dev.zio"                       %% "zio-config-magnolia"      % zioConfigVersion
+    val zioConfigTypesafe = "dev.zio"                       %% "zio-config-typesafe"      % zioConfigVersion
     val zioStacktracer = "dev.zio" %% "zio-stacktracer" % zioVersion
     val zioInteropCats = "dev.zio" %% "zio-interop-cats" % zioInteropCatsVersion
     val zioLogging = "dev.zio" %% "zio-logging" % zioLoggingVersion
@@ -31,16 +34,6 @@ object Dependencies {
   def http4s(artifact: String): ModuleID = "org.http4s" %% s"http4s-$artifact" % http4sVersion
   def cormorant(artifact: String): ModuleID =
     "io.chrisdavenport" %% s"cormorant-$artifact" % cormorantVersion
-
-  object Misc {
-    val newtype = "io.estatico" %% "newtype" % newtypeVersion
-    val squants = "org.typelevel" %% "squants" % squantsVersion
-    val fs2Core = "co.fs2" %% "fs2-core" % fs2Version
-    val fs2IO = "co.fs2" %% "fs2-io" % fs2Version
-    val pureconfig = "com.github.pureconfig" %% "pureconfig" % pureconfigVersion
-    val flywayDb = "org.flywaydb" % "flyway-core" % flywayDbVersion
-
-  }
 
   object Refined {
     val refinedCore = "eu.timepit" %% "refined" % refinedVersion
@@ -121,6 +114,16 @@ object Dependencies {
 
   }
 
+  object Misc {
+    val newtype = "io.estatico" %% "newtype" % newtypeVersion  cross CrossVersion.for3Use2_13
+    val squants = "org.typelevel" %% "squants" % squantsVersion
+    val fs2Core = "co.fs2" %% "fs2-core" % fs2Version
+    val fs2IO = "co.fs2" %% "fs2-io" % fs2Version
+    val pureconfig = "com.github.pureconfig" %% "pureconfig" % pureconfigVersion cross CrossVersion.for3Use2_13
+    val flywayDb = "org.flywaydb" % "flyway-core" % flywayDbVersion
+  }
+
+
   val jwtScala = "com.github.jwt-scala" %% "jwt-core" % "9.0.2"
   val zioHttp = "io.d11" %% "zhttp" % zioHttpVersion
   val postgresql = "org.postgresql" % "postgresql" % "42.2.8"
@@ -167,7 +170,10 @@ object Dependencies {
       Zio.zio,
       Zio.zioPrelude,
       Zio.zioJson,
+      Zio.zioConfig,
       Zio.zioStacktracer,
+      Zio.zioConfigMagnolia,
+      Zio.zioConfigTypesafe,
       Zio.zioLogging,
       Zio.zioLoggingSlf4j,
       Zio.zioInteropCats,
@@ -189,6 +195,8 @@ object Dependencies {
     Doobie.doobiePostgres,
     Doobie.doobieH2,
   )
+
+  val miscDependencies = Seq(Misc.newtype, Misc.squants, Misc.fs2Core, Misc.fs2IO, Misc.pureconfig, Misc.flywayDb)
 
   val utilitiesDependencies: Seq[ModuleID] = Seq(refinedCore)
 
@@ -220,7 +228,7 @@ object Dependencies {
   )
 
   lazy val allDependencies =
-    commonDependencies ++ webDependencies ++ dbDependencies ++ utilitiesDependencies ++ graphQLDependencies
+    commonDependencies ++ webDependencies ++ dbDependencies ++ utilitiesDependencies ++ miscDependencies ++ graphQLDependencies
 
   val testDependencies: Seq[ModuleID] =
     Seq(Zio.zioTest, Zio.zioTestSbt) ++ Seq(

@@ -1,7 +1,7 @@
-package co.rapidor.app.services
+package co.rapidor.services
 
 import zio.*
-import co.rapidor.app.models.{ FlywaySchemaHistory, Version }
+import co.rapidor.models.{ FlywaySchemaHistory, Version }
 
 trait DatabaseHistoryService {
   def getDatabaseHistoryList: Task[List[FlywaySchemaHistory]]

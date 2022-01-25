@@ -1,10 +1,10 @@
-package co.rapidor.app.graphql
+package co.rapidor.graphql
 
 import scala.language.postfixOps
 import zio.*
 import zio.json.*
-import co.rapidor.app.models.{ Version, FlywaySchemaHistory }
-import co.rapidor.app.services.DatabaseHistoryService
+import co.rapidor.models.{ Version, FlywaySchemaHistory }
+import co.rapidor.services.DatabaseHistoryService
 
 import caliban.GraphQL
 import caliban.GraphQL.graphQL
