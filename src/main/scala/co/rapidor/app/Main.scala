@@ -24,16 +24,16 @@ object Examples {
     import io.getquill.autoQuote
     val ctx = new PostgresJdbcContext(SnakeCase, "ctx")
     import ctx._
-    case class PgVersion(version:String)
+    case class PgVersion(version: String)
     case class PgDatabase(oid: Int, datname: String)
 
     inline def pgVersionQ = quote {
       query[PgDatabase]
     }
-    inline def selectVersionQ = quote{
+    inline def selectVersionQ = quote {
       infix"""SELECT version()""".as[Query[String]]
     }
-    inline def selectPg12VersionQ = quote{
+    inline def selectPg12VersionQ = quote {
       infix"""SELECT version() where version() like '%PostgreSQL 12.3%'""".as[Query[String]]
     }
     val queryResponse1: List[PgDatabase] = ctx.run(pgVersionQ)
@@ -41,17 +41,17 @@ object Examples {
     val queryResponse3 = ctx.run(selectPg12VersionQ)
     val r = for {
       r1 <-
-        ZIO.from({
+        ZIO.from {
           queryResponse1
-        })
+        }
       r2 <-
-        ZIO.from({
+        ZIO.from {
           queryResponse2
-        })
+        }
       r3 <-
-        ZIO.from({
+        ZIO.from {
           queryResponse3
-        })
+        }
     } yield (r1, r2, r3)
     r
   }
@@ -60,14 +60,16 @@ object Examples {
   def testBlindsightLogging(logger: com.tersesystems.blindsight.Logger) = {
     val dayOfWeek = "Monday"
     val temp = 72
-    val statement: Statement = st"It is ${dayOfWeek} and the temperature is ${temp} degrees."
+    val statement: Statement = st"It is $dayOfWeek and the temperature is $temp degrees."
     logger.info(statement)
-    logger.info(st"Time since epoch is ${bobj("instant_tse" -> java.time.Instant.now.toEpochMilli)}")
+    logger.info(
+      st"Time since epoch is ${bobj("instant_tse" -> java.time.Instant.now.toEpochMilli)}"
+    )
 
     import com.tersesystems.blindsight._
     import com.tersesystems.blindsight.semantic._
     import eu.timepit.refined._
-    import eu.timepit.refined.api.{RefType, Refined}
+    import eu.timepit.refined.api.{ RefType, Refined }
     import eu.timepit.refined.auto._
     import eu.timepit.refined.numeric._
     import eu.timepit.refined.boolean._
@@ -97,6 +99,7 @@ object Examples {
       a + b
     }
   }
+
 }
 
 object Main extends ZIOAppDefault:
@@ -104,24 +107,20 @@ object Main extends ZIOAppDefault:
   println("Welcome...")
   println("─" * 100)
 
-
-
   private def loggerContext = {
     import ch.qos.logback.classic.LoggerContext
     org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
   }
 
-  def startLogback() = {
+  def startLogback() =
     // startLogback should run in main class static block or as first statement
     // you need this to ensure you initialize Logback **before** JUL logging.
     loggerContext
-  }
 
-  def stopLogback(): Unit = {
+  def stopLogback(): Unit =
     // ideally stop explicitly for async loggers (there is also a shutdown hook just in case)
     // http://logback.qos.ch/manual/configuration.html#stopContext
     loggerContext.stop()
-  }
 
   //override val runtime = Runtime.default.mapRuntimeConfig(_.copy(supervisor = ZMXSupervisor))
   //val diagnosticsLayer: ZLayer[ZEnv, Throwable, zio.zmx.diagnostics.Diagnostics] = Diagnostics.make("localhost", 1111)
@@ -158,16 +157,15 @@ object Main extends ZIOAppDefault:
         Logging.withRootLoggerName(s"UserServer")
 
     val logLayer: TaskLayer[Logging] = ZEnv.live >>> logEnv
-    */
+     */
 
     val program = (for {
       //logger <- ZIO.from(startLogback())
       //interpreter <- QueriesApi.api.interpreter
       v <- Examples.testProtoQuill()
-      _ <- {
+      _ <-
         //Console.printLine(v)
         ZIO.from(logger.info(v.toString()))
-      }
       /*
       _ <- Server
         .start(
@@ -179,11 +177,13 @@ object Main extends ZIOAppDefault:
           }
         )
         .forever
-      */
+       */
       _ <- ZIO.from(logger.info("Stopping the program"))
       stopLogger <- ZIO.from(stopLogback())
-    } yield ()).provideCustom(Console.live ++ Clock.live ++ DatabaseHistoryServiceLive.layer).exitCode
+    } yield ())
+      .provideCustom(Console.live ++ Clock.live ++ DatabaseHistoryServiceLive.layer)
+      .exitCode
     //} yield ()).provideCustom(Console.live ++ Clock.live).exitCode
-  //stopLogback()
+    //stopLogback()
     program
   }

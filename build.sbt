@@ -3,10 +3,9 @@ import Dependencies._
 
 enablePlugins(JavaAppPackaging)
 
-
-ThisBuild / scalaVersion     := "3.1.0"
-ThisBuild / version          := "0.0.1"
-ThisBuild / organization     := "co.rapidor"
+ThisBuild / scalaVersion := "3.1.0"
+ThisBuild / version := "0.0.1"
+ThisBuild / organization := "co.rapidor"
 ThisBuild / organizationName := "acelr"
 
 ThisBuild / evictionErrorLevel := Level.Warn
@@ -58,10 +57,10 @@ lazy val `zioplayground` =
     .settings(commonSettings)
     .settings(dependencies)
     .settings(
-	mainClass in (Compile, packageBin) := Some("co.rapidor.app.Main"),
-    	assembly / mainClass := Some("co.rapidor.app.Main"),
-    	assembly / assemblyJarName := s"${name.value}-${version.value}.jar")
-
+      mainClass in (Compile, packageBin) := Some("co.rapidor.app.Main"),
+      assembly / mainClass := Some("co.rapidor.app.Main"),
+      assembly / assemblyJarName := s"${name.value}-${version.value}.jar",
+    )
 
 lazy val commonSettings = commonScalacOptions ++ Seq(
   update / evictionWarningOptions := EvictionWarningOptions.empty
@@ -76,34 +75,32 @@ lazy val commonScalacOptions = Seq(
     (Compile / console / scalacOptions).value,
 )
 
-
-
 lazy val logging = (project in file("logging")).settings(
   libraryDependencies += blindsightLogbackStructuredConfig
 )
 
-lazy val impl = (project in file("impl")).settings(
-  // all your code dependencies + slf4j-api
-  libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.25"
-).dependsOn(logging)
-
+lazy val impl = (project in file("impl"))
+  .settings(
+    // all your code dependencies + slf4j-api
+    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.25"
+  )
+  .dependsOn(logging)
 
 dependencyOverrides ++= Seq(
-          "com.lihaoyi" %% "sourcecode" % "0.2.7"
+  "com.lihaoyi" %% "sourcecode" % "0.2.7"
 )
 
-
 ThisBuild / assemblyMergeStrategy := {
-  case PathList("io", "netty", xs @ _*)         => MergeStrategy.first
-  case PathList("com", "fasterxml", xs @ _*)         => MergeStrategy.first
-  case PathList("org", "reactivestreams", xs @ _*)         => MergeStrategy.first
-  case PathList("io", "getquill", "quill-sql", xs @ _*)         => MergeStrategy.first
-  case PathList("ch", "qos", xs @ _*)         => MergeStrategy.first
-  case PathList("com", "outr", xs @ _*)         => MergeStrategy.first
-  case PathList("javax", "annotation", xs @ _*)         => MergeStrategy.first
+  case PathList("io", "netty", xs @ _*) => MergeStrategy.first
+  case PathList("com", "fasterxml", xs @ _*) => MergeStrategy.first
+  case PathList("org", "reactivestreams", xs @ _*) => MergeStrategy.first
+  case PathList("io", "getquill", "quill-sql", xs @ _*) => MergeStrategy.first
+  case PathList("ch", "qos", xs @ _*) => MergeStrategy.first
+  case PathList("com", "outr", xs @ _*) => MergeStrategy.first
+  case PathList("javax", "annotation", xs @ _*) => MergeStrategy.first
   //case PathList("org", "apache", "tomcat-annotations-api", xs @ _*)         => MergeStrategy.first
   //case PathList("javax", "activation", "activation", xs @ _*)         => MergeStrategy.discard
-  case PathList("com", "sun", "activation", xs @ _*)         => MergeStrategy.last
+  case PathList("com", "sun", "activation", xs @ _*) => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "ExecutionInfo$.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "ExecutionInfo.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "ProtoStreamContext.class" => MergeStrategy.last
@@ -123,7 +120,8 @@ ThisBuild / assemblyMergeStrategy := {
   case PathList(ps @ _*) if ps.last endsWith "DataContentHandler.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "DataHandlerDataSource.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "DataSource.class" => MergeStrategy.last
-  case PathList(ps @ _*) if ps.last endsWith "DataSourceDataContentHandler.class" => MergeStrategy.last
+  case PathList(ps @ _*) if ps.last endsWith "DataSourceDataContentHandler.class" =>
+    MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "FileDataSource.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "FileTypeMap.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "MailcapCommandMap.class" => MergeStrategy.last
@@ -135,9 +133,11 @@ ThisBuild / assemblyMergeStrategy := {
   case PathList(ps @ _*) if ps.last endsWith "SecuritySupport$5.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "SecuritySupport.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "URLDataSource.class" => MergeStrategy.last
-  case PathList(ps @ _*) if ps.last endsWith "UnsupportedDataTypeException.class" => MergeStrategy.last
+  case PathList(ps @ _*) if ps.last endsWith "UnsupportedDataTypeException.class" =>
+    MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "ObjectDataContentHandler.class" => MergeStrategy.last
-  case PathList(ps @ _*) if ps.last endsWith "UnsupportedDataTypeException.class" => MergeStrategy.last
+  case PathList(ps @ _*) if ps.last endsWith "UnsupportedDataTypeException.class" =>
+    MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "LineTokenizer.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "DataHandlerDataSource.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "FileDataSource.class" => MergeStrategy.last
@@ -151,10 +151,9 @@ ThisBuild / assemblyMergeStrategy := {
   case PathList(ps @ _*) if ps.last endsWith "DataHandler.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "MimeType.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith ".html" => MergeStrategy.first
-  case "application.conf"                            => MergeStrategy.concat
-  case "unwanted.txt"                                => MergeStrategy.discard
+  case "application.conf" => MergeStrategy.concat
+  case "unwanted.txt" => MergeStrategy.discard
   case x =>
     val oldStrategy = (ThisBuild / assemblyMergeStrategy).value
     oldStrategy(x)
 }
-
