@@ -1,15 +1,7 @@
-import Dependencies.Blindsight.{
-  blindsightGenric,
-  blindsightInspection,
-  blindsightJsonld,
-  blindsightLogbackStructuredConfig,
-  blindsightLogstash,
-  blindsightRingbuffer,
-  blindsightScripting,
-}
-import Dependencies.Caliban.{ caliban, calibanFederation, calibanTapir, calibanZioHttp }
-import Dependencies.Quill.{ quillJdbc, quillPostgresAsync, quillSql, quillZio }
-import Dependencies.Refined.refinedCore
+import Dependencies.Blindsight.{blindsightGenric, blindsightInspection, blindsightJsonld, blindsightLogbackStructuredConfig, blindsightLogstash, blindsightRingbuffer, blindsightScripting}
+import Dependencies.Caliban.{caliban, calibanFederation, calibanTapir, calibanZioHttp}
+import Dependencies.Quill.{quillJdbc, quillOrientdb, quillPostgresAsync, quillSql, quillZio}
+import Dependencies.Refined.{refinedCore, refinedScalaz, refinedScodec}
 import sbt._
 import Keys._
 import Versions._
@@ -19,7 +11,11 @@ object Dependencies {
     val zio = "dev.zio" %% "zio" % zioVersion
     val zioPrelude = "dev.zio" %% "zio-prelude" % zioPreludeVersion
     val zioQuery = "dev.zio" %% "zio-query" % zioQueryVersion
+    val zioJson = "dev.zio" %% "zio-json" % zioJsonVersion
+    val zioStacktracer = "dev.zio" %% "zio-stacktracer" % zioVersion
     val zioInteropCats = "dev.zio" %% "zio-interop-cats" % zioInteropCatsVersion
+    val zioLogging = "dev.zio" %% "zio-logging" % zioLoggingVersion
+    val zioLoggingSlf4j = "dev.zio" %% "zio-logging-slf4j" % zioLoggingVersion
     val zioStreams = "dev.zio" %% "zio-streams" % zioStreamsVersion
     val zioTest = "dev.zio" %% "zio-test" % zioVersion % "test"
     val zioTestSbt = "dev.zio" %% "zio-test-sbt" % zioVersion % "test"
@@ -127,12 +123,10 @@ object Dependencies {
   val jwtScala = "com.github.jwt-scala" %% "jwt-core" % "9.0.2"
   val zioHttp = "io.d11" %% "zhttp" % zioHttpVersion
   val postgresql = "org.postgresql" % "postgresql" % "42.2.8"
-  // Runtime
-  val logback = "ch.qos.logback" % "logback-classic" % logbackVersion % Runtime
 
   val pprint = "com.lihaoyi" %% "pprint" % "0.7.1"
   // Basic Logback
-  val logbackClassic = "ch.qos.logback" % "logback-classic" % "1.2.3"
+  val logback = "ch.qos.logback" % "logback-classic" % logbackVersion
   val logstashLogbackEncoder = "net.logstash.logback" % "logstash-logback-encoder" % "6.6"
   val janino = "org.codehaus.janino" % "janino" % "3.0.11"
   val jansi = "org.fusesource.jansi" % "jansi" % "1.17.1"
@@ -163,111 +157,60 @@ object Dependencies {
   import CompilerPlugin._
 
   val commonDependencies: Seq[ModuleID] =
-    Seq(Zio.zio, Zio.zioPrelude, Zio.zioInteropCats, Zio.zioStreams, Zio.zioQuery)
+    Seq(Zio.zio, Zio.zioPrelude, Zio.zioJson, Zio.zioStacktracer, Zio.zioLogging, Zio.zioLoggingSlf4j, Zio.zioInteropCats, Zio.zioStreams, Zio.zioQuery)
 
-  lazy val dependencies = Seq(
-    libraryDependencies ++= Seq(
-      // main dependencies
-      "dev.zio" %% "zio" % zioVersion,
-      "dev.zio" %% "zio-json" % zioJsonVersion,
-      //"dev.zio"                       % "zio-json_2.13"                 % zioJsonVersion,
-      "dev.zio" %% "zio-logging" % zioLoggingVersion,
-      "dev.zio" %% "zio-logging-slf4j" % zioLoggingVersion,
-      //"dev.zio" %% "zio-zmx" % zioZmxVersion,
-      //"dev.zio" % "zio-zmx_2.13" % zioZmxVersion,
-      //"dev.zio" %% "zio-logging-slf4j-bridge" % zioLoggingVersion,
-      "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0",
-      "com.lihaoyi" %% "sourcecode" % "0.2.7",
-    ),
-    libraryDependencies += jwtScala,
-    libraryDependencies += zioHttp,
-    libraryDependencies += refinedCore,
-    //libraryDependencies += refinedScalaz,
-    //libraryDependencies += refinedScodec,
-    libraryDependencies += postgresql,
-    libraryDependencies += quillSql,
-    libraryDependencies += quillJdbc,
-    libraryDependencies += quillZio,
-    libraryDependencies += quillPostgresAsync,
-    //libraryDependencies += quillOrientdb,
-    //libraryDependencies += ,
-    // internal jdk libraries use java util logging
-    libraryDependencies += julToSlf4j,
+  val webDependencies: Seq[ModuleID] = Seq(jwtScala, zioHttp)
 
-    // Basic logback
-    libraryDependencies += logbackClassic,
-    libraryDependencies += logstashLogbackEncoder,
-    libraryDependencies += janino,
-    libraryDependencies += jansi,
-    libraryDependencies += pprint,
-    libraryDependencies += caliban,
-    libraryDependencies += calibanZioHttp,
-    libraryDependencies += calibanTapir,
-    libraryDependencies += calibanFederation,
-
-    // sqlite appender
-    libraryDependencies += blackliteLogback,
-
-    // terse-logback utilities
-    libraryDependencies += terseLogbackClassic,
-    libraryDependencies += logbackUniqueId,
-
-    // Blindsight API and logstash-logback-encoder integration
-    libraryDependencies += blindsightLogstash,
-    libraryDependencies += blindsightInspection,
-    libraryDependencies += blindsightScripting,
-    libraryDependencies += blindsightGenric,
-    libraryDependencies += blindsightJsonld,
-    libraryDependencies += blindsightRingbuffer,
-    libraryDependencies += blindsightLogbackStructuredConfig,
-    libraryDependencies ++= Seq(
-      org.scalatest.scalatest,
-      org.scalatestplus.`scalacheck-1-15`,
-    ).map(_ % Test),
-    libraryDependencies := libraryDependencies
-      .value
-      .map(
-        _ excludeAll (
-          ExclusionRule(organization = "com.lihaoyi", name = "fansi_2.13"),
-          ExclusionRule(organization = "com.lihaoyi", name = "pprint_2.13"),
-          ExclusionRule(organization = "com.lihaoyi", name = "sourcecode_2.13"),
-          ExclusionRule(
-            organization = "org.scala-lang.modules",
-            name = "scala-collection-compat_2.13",
-          ),
-        )
-      ),
+  val dbDependencies: Seq[ModuleID] = Seq(
+    postgresql,
+    quillSql,
+    quillJdbc,
+    quillZio,
+    quillPostgresAsync,
+    //quillOrientdb,
+  Doobie.doobieCore,
+  Doobie.doobieHikari,
+  Doobie.doobiePostgres,
+  Doobie.doobieH2
   )
 
-  val tradeioDependencies: Seq[ModuleID] =
-    commonDependencies ++ Seq(kindProjector, betterMonadicFor, semanticDB) ++
-      Seq(Misc.newtype, Misc.squants, Misc.pureconfig) ++ Seq(logback) ++ Seq(Misc.flywayDb) ++
-      Seq(Derevo.derevoCore, Derevo.derevoCiris, Derevo.derevoCirceMagnolia) ++
-      Seq(Refined.refinedCore, Refined.refinedCats, Refined.refinedShapeless) ++
-      Seq(
-        Ciris.cirisCore,
-        Ciris.cirisEnum,
-        Ciris.cirisRefined,
-        Ciris.cirisCirce,
-        Ciris.cirisSquants,
-      ) ++
-      Seq(Circe.circeCore, Circe.circeGeneric, Circe.circeParser, Circe.circeRefined) ++
-      Seq(
-        Doobie.doobieCore,
-        Doobie.doobieHikari,
-        Doobie.doobiePostgres,
-        Doobie.doobieH2,
-        Doobie.doobieEnumeratum,
-      )
+  val utilitiesDependencies: Seq[ModuleID] = Seq(refinedCore)
+
+  val loggingDependencies = Seq(
+    logback,
+    logstashLogbackEncoder,
+    janino,
+    jansi,
+    julToSlf4j,
+    pprint,
+    blackliteLogback,
+    terseLogbackClassic,
+    logbackUniqueId,
+    blindsightLogstash,
+    blindsightInspection,
+    blindsightScripting,
+    blindsightGenric,
+    blindsightJsonld,
+    blindsightRingbuffer,
+    blindsightLogbackStructuredConfig
+  )
+
+  val graphQLDependencies = Seq(
+
+    caliban,
+    calibanZioHttp,
+    calibanTapir,
+    calibanFederation
+  )
+
+  lazy val allDependencies = commonDependencies ++ webDependencies ++ dbDependencies ++ loggingDependencies ++ utilitiesDependencies ++ graphQLDependencies
 
   val testDependencies: Seq[ModuleID] =
-    Seq(Zio.zioTest, Zio.zioTestSbt)
+    Seq(Zio.zioTest, Zio.zioTestSbt) ++ Seq(
+      org.scalatest.scalatest,
+      org.scalatestplus.`scalacheck-1-15`,
+    ).map(_ % Test)
 
-  //val quillSql =  "io.getquill" % "quill-sql_2.13" % quillVersion
-  //val quillJdbc = "io.getquill" % "quill-jdbc_2.13" % quillVersion
-  //val quillZio = "io.getquill" % "quill-jdbc-zio_2.13" % quillVersion
-  //val quillPostgresAsync =  "io.getquill" % "quill-jasync-postgres_2.13" % quillVersion
-  //val quillOrientdb = "io.getquill" % "quill-orientdb_2.13" % quillVersion
 
   case object org {
     case object scalatest {

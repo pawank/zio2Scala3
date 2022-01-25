@@ -33,7 +33,7 @@ object Versions {
   val zioPreludeVersion = "1.0.0-RC9"
   val zioConfigVersion = "1.0.10"
   val zioInteropCatsVersion = "3.3.0-RC1"
-  val zioLoggingVersion = "0.5.14"
+  val zioLoggingVersion = "2.0.0-RC4"
   val zioZmxVersion = "2.0.0-M1"
   val enumeratumDoobieVersion = "1.7.0"
   val flywayDbVersion = "8.4.2"
@@ -44,8 +44,9 @@ object Versions {
   val blindsightVersion = "1.5.2"
   val terseLogbackVersion = "1.0.1"
   val blackliteVersion = "1.0.1"
-  val quillVersion = "3.12.0.Beta1.7"
-  //val quillVersion = "3.10.0.Beta1.6"
+  val protoquillVersion = "3.12.0.Beta1.7"
+  //val quillVersion = "3.14.0"
+  val quillVersion = protoquillVersion
   val zioHttpVersion = "1.0.0.0-RC22"
   val calibanVersion = "1.3.2"
 

@@ -60,7 +60,31 @@ lazy val `zioplayground` =
       mainClass in (Compile, packageBin) := Some("co.rapidor.app.Main"),
       assembly / mainClass := Some("co.rapidor.app.Main"),
       assembly / assemblyJarName := s"${name.value}-${version.value}.jar",
+      libraryDependencies := libraryDependencies
+        .value
+        .map(
+          _ excludeAll (
+            ExclusionRule(organization = "dev.zio", name = "zio-stacktracer_2.13"),
+            ExclusionRule(organization = "dev.zio", name = "zio-logging_2.13"),
+            ExclusionRule(organization = "dev.zio", name = "zio-streams_2.13"),
+            ExclusionRule(organization = "dev.zio", name = "zio_2.13"),
+            ExclusionRule(organization = "dev.zio", name = "izumi-reflect_2.13"),
+            ExclusionRule(organization = "dev.zio", name = "izumi-reflect-thirdparty-boopickle-shaded_2.13"),
+            ExclusionRule(organization = "com.lihaoyi", name = "fansi_2.13"),
+            ExclusionRule(organization = "com.lihaoyi", name = "pprint_2.13"),
+            ExclusionRule(organization = "com.lihaoyi", name = "sourcecode_2.13"),
+            ExclusionRule(
+              organization = "org.scala-lang.modules",
+              name = "scala-collection-compat_2.13",
+            ),
+          )
+        )
     )
+
+lazy val dependencies = libraryDependencies ++= Dependencies.allDependencies
+
+lazy val testDependencies =
+  libraryDependencies ++= Dependencies.testDependencies
 
 lazy val commonSettings = commonScalacOptions ++ Seq(
   update / evictionWarningOptions := EvictionWarningOptions.empty
@@ -68,6 +92,7 @@ lazy val commonSettings = commonScalacOptions ++ Seq(
 
 lazy val commonScalacOptions = Seq(
   Compile / console / scalacOptions --= Seq(
+    //"-Xignore-scala2-macros",
     "-Wunused:_",
     "-Xfatal-warnings",
   ),
