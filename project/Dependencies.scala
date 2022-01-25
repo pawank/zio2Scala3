@@ -1,7 +1,25 @@
-import Dependencies.Blindsight.{blindsightGenric, blindsightInspection, blindsightJsonld, blindsightLogbackStructuredConfig, blindsightLogstash, blindsightRingbuffer, blindsightScripting}
-import Dependencies.Caliban.{caliban, calibanFederation, calibanTapir, calibanZioHttp}
-import Dependencies.Quill.{quillJdbc, quillOrientdb, quillPostgresAsync, quillSql, quillZio}
-import Dependencies.Refined.{refinedCore, refinedScalaz, refinedScodec}
+import Dependencies.Blindsight.{
+  blindsightGenric,
+  blindsightInspection,
+  blindsightJsonld,
+  blindsightLogbackStructuredConfig,
+  blindsightLogstash,
+  blindsightRingbuffer,
+  blindsightScripting,
+}
+import Dependencies.Caliban.{ caliban, calibanFederation, calibanTapir, calibanZioHttp }
+import Dependencies.Logging.{
+  blackliteLogback,
+  janino,
+  jansi,
+  julToSlf4j,
+  logback,
+  logbackUniqueId,
+  logstashLogbackEncoder,
+  terseLogbackClassic,
+}
+import Dependencies.Quill.{ quillJdbc, quillOrientdb, quillPostgresAsync, quillSql, quillZio }
+import Dependencies.Refined.{ refinedCore, refinedScalaz, refinedScodec }
 import sbt._
 import Keys._
 import Versions._
@@ -125,21 +143,25 @@ object Dependencies {
   val postgresql = "org.postgresql" % "postgresql" % "42.2.8"
 
   val pprint = "com.lihaoyi" %% "pprint" % "0.7.1"
-  // Basic Logback
-  val logback = "ch.qos.logback" % "logback-classic" % logbackVersion
-  val logstashLogbackEncoder = "net.logstash.logback" % "logstash-logback-encoder" % "6.6"
-  val janino = "org.codehaus.janino" % "janino" % "3.0.11"
-  val jansi = "org.fusesource.jansi" % "jansi" % "1.17.1"
-  val julToSlf4j = "org.slf4j" % "jul-to-slf4j" % "1.7.30"
 
-  // https://github.com/tersesystems/blacklite#logback
-  val blackliteLogback = "com.tersesystems.blacklite" % "blacklite-logback" % blackliteVersion
-  // https://github.com/tersesystems/blacklite#codec
-  //val blackliteZtdCodec = "com.tersesystems.blacklite" % "blacklite-codec-zstd" % blacklite
-  // https://tersesystems.github.io/terse-logback/
-  val terseLogbackClassic = "com.tersesystems.logback" % "logback-classic" % terseLogbackVersion
-  val logbackUniqueId =
-    "com.tersesystems.logback" % "logback-uniqueid-appender" % terseLogbackVersion
+  object Logging {
+    // Basic Logback
+    val logback = "ch.qos.logback" % "logback-classic" % logbackVersion
+    val logstashLogbackEncoder = "net.logstash.logback" % "logstash-logback-encoder" % "6.6"
+    val janino = "org.codehaus.janino" % "janino" % "3.0.11"
+    val jansi = "org.fusesource.jansi" % "jansi" % "1.17.1"
+    val julToSlf4j = "org.slf4j" % "jul-to-slf4j" % "1.7.30"
+
+    // https://github.com/tersesystems/blacklite#logback
+    val blackliteLogback = "com.tersesystems.blacklite" % "blacklite-logback" % blackliteVersion
+    // https://github.com/tersesystems/blacklite#codec
+    //val blackliteZtdCodec = "com.tersesystems.blacklite" % "blacklite-codec-zstd" % blacklite
+    // https://tersesystems.github.io/terse-logback/
+    val terseLogbackClassic = "com.tersesystems.logback" % "logback-classic" % terseLogbackVersion
+    val logbackUniqueId =
+      "com.tersesystems.logback" % "logback-uniqueid-appender" % terseLogbackVersion
+
+  }
 
   object CompilerPlugin {
     val betterMonadicFor = compilerPlugin(
@@ -157,7 +179,17 @@ object Dependencies {
   import CompilerPlugin._
 
   val commonDependencies: Seq[ModuleID] =
-    Seq(Zio.zio, Zio.zioPrelude, Zio.zioJson, Zio.zioStacktracer, Zio.zioLogging, Zio.zioLoggingSlf4j, Zio.zioInteropCats, Zio.zioStreams, Zio.zioQuery)
+    Seq(
+      Zio.zio,
+      Zio.zioPrelude,
+      Zio.zioJson,
+      Zio.zioStacktracer,
+      Zio.zioLogging,
+      Zio.zioLoggingSlf4j,
+      Zio.zioInteropCats,
+      Zio.zioStreams,
+      Zio.zioQuery,
+    )
 
   val webDependencies: Seq[ModuleID] = Seq(jwtScala, zioHttp)
 
@@ -168,10 +200,10 @@ object Dependencies {
     quillZio,
     quillPostgresAsync,
     //quillOrientdb,
-  Doobie.doobieCore,
-  Doobie.doobieHikari,
-  Doobie.doobiePostgres,
-  Doobie.doobieH2
+    Doobie.doobieCore,
+    Doobie.doobieHikari,
+    Doobie.doobiePostgres,
+    Doobie.doobieH2,
   )
 
   val utilitiesDependencies: Seq[ModuleID] = Seq(refinedCore)
@@ -192,25 +224,24 @@ object Dependencies {
     blindsightGenric,
     blindsightJsonld,
     blindsightRingbuffer,
-    blindsightLogbackStructuredConfig
+    blindsightLogbackStructuredConfig,
   )
 
   val graphQLDependencies = Seq(
-
     caliban,
     calibanZioHttp,
     calibanTapir,
-    calibanFederation
+    calibanFederation,
   )
 
-  lazy val allDependencies = commonDependencies ++ webDependencies ++ dbDependencies ++ loggingDependencies ++ utilitiesDependencies ++ graphQLDependencies
+  lazy val allDependencies =
+    commonDependencies ++ webDependencies ++ dbDependencies ++ loggingDependencies ++ utilitiesDependencies ++ graphQLDependencies
 
   val testDependencies: Seq[ModuleID] =
     Seq(Zio.zioTest, Zio.zioTestSbt) ++ Seq(
       org.scalatest.scalatest,
       org.scalatestplus.`scalacheck-1-15`,
     ).map(_ % Test)
-
 
   case object org {
     case object scalatest {

@@ -69,7 +69,10 @@ lazy val `zioplayground` =
             ExclusionRule(organization = "dev.zio", name = "zio-streams_2.13"),
             ExclusionRule(organization = "dev.zio", name = "zio_2.13"),
             ExclusionRule(organization = "dev.zio", name = "izumi-reflect_2.13"),
-            ExclusionRule(organization = "dev.zio", name = "izumi-reflect-thirdparty-boopickle-shaded_2.13"),
+            ExclusionRule(
+              organization = "dev.zio",
+              name = "izumi-reflect-thirdparty-boopickle-shaded_2.13",
+            ),
             ExclusionRule(organization = "com.lihaoyi", name = "fansi_2.13"),
             ExclusionRule(organization = "com.lihaoyi", name = "pprint_2.13"),
             ExclusionRule(organization = "com.lihaoyi", name = "sourcecode_2.13"),
@@ -78,7 +81,7 @@ lazy val `zioplayground` =
               name = "scala-collection-compat_2.13",
             ),
           )
-        )
+        ),
     )
 
 lazy val dependencies = libraryDependencies ++= Dependencies.allDependencies
