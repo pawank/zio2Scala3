@@ -4,11 +4,13 @@ import Dependencies._
 enablePlugins(JavaAppPackaging)
 
 
-ThisBuild / organization := "co.rapidor"
-//ThisBuild / scalaVersion := "2.13.7"
-ThisBuild / scalaVersion := "3.1.0"
+ThisBuild / scalaVersion     := "3.1.0"
+ThisBuild / version          := "0.0.1"
+ThisBuild / organization     := "co.rapidor"
+ThisBuild / organizationName := "acelr"
 
-//crossScalaVersions := Seq("2.13.7", "3.1.0")
+ThisBuild / evictionErrorLevel := Level.Warn
+ThisBuild / scalafixDependencies += Dependencies.organizeImports
 
 maintainer := "pawan@rapidor.co"
 
