@@ -1,3 +1,4 @@
+import Dependencies.Blindsight.blindsightLogbackStructuredConfig
 import Dependencies._
 
 enablePlugins(JavaAppPackaging)
@@ -74,10 +75,6 @@ lazy val commonScalacOptions = Seq(
 )
 
 
-val zioVersion = "2.0.0-RC1"
-val zioLoggingVersion = "0.5.14"
-val zioJsonVersion = "0.3.0-RC1-1"
-val zioZmxVersion = "2.0.0-M1"
 
 lazy val logging = (project in file("logging")).settings(
   libraryDependencies += blindsightLogbackStructuredConfig
@@ -88,76 +85,6 @@ lazy val impl = (project in file("impl")).settings(
   libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.25"
 ).dependsOn(logging)
 
-lazy val dependencies = Seq(
-  libraryDependencies ++= Seq(
-	  // main dependencies
-	  "dev.zio" %% "zio" % zioVersion,
-          "dev.zio"                       %% "zio-json"                 % zioJsonVersion,
-          //"dev.zio"                       % "zio-json_2.13"                 % zioJsonVersion,
-          "dev.zio" %% "zio-logging" % zioLoggingVersion,
-	  "dev.zio" %% "zio-logging-slf4j" % zioLoggingVersion,
-          //"dev.zio" %% "zio-zmx" % zioZmxVersion,
-          //"dev.zio" % "zio-zmx_2.13" % zioZmxVersion,
-          //"dev.zio" %% "zio-logging-slf4j-bridge" % zioLoggingVersion,
-	  "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0",
-          "com.lihaoyi" %% "sourcecode" % "0.2.7"
-  ),
-    libraryDependencies += jwtScala,
-    libraryDependencies += zioHttp,
-    libraryDependencies += refined,
-    //libraryDependencies += refinedScalaz,
-    //libraryDependencies += refinedScodec,
-
-    libraryDependencies += postgresql,
-    libraryDependencies += quillSql,
-    libraryDependencies += quillJdbc,
-    libraryDependencies += quillZio,
-    libraryDependencies += quillPostgresAsync,
-    //libraryDependencies += quillOrientdb,
-    //libraryDependencies += ,
-    // internal jdk libraries use java util logging
-    libraryDependencies += julToSlf4j,
-
-    // Basic logback
-    libraryDependencies += logbackClassic,
-    libraryDependencies += logstashLogbackEncoder,
-    libraryDependencies += janino,
-    libraryDependencies += jansi,
-
-    libraryDependencies += pprint,
-
-    libraryDependencies += caliban,
-    libraryDependencies += calibanZioHttp,
-    libraryDependencies += calibanTapir,
-    libraryDependencies += calibanFederation,
-
-    // sqlite appender
-    libraryDependencies += blackliteLogback,
-
-    // terse-logback utilities
-    libraryDependencies += terseLogbackClassic,
-    libraryDependencies += logbackUniqueId,
-
-    // Blindsight API and logstash-logback-encoder integration
-    libraryDependencies += blindsightLogstash,
-    libraryDependencies += blindsightInspection,
-    libraryDependencies += blindsightScripting,
-    libraryDependencies += blindsightGenric,
-    libraryDependencies += blindsightJsonld,
-    libraryDependencies += blindsightRingbuffer,
-    libraryDependencies += blindsightLogbackStructuredConfig,
-
-  libraryDependencies ++= Seq(
-    org.scalatest.scalatest,
-    org.scalatestplus.`scalacheck-1-15`,
-  ).map(_ % Test),
-  libraryDependencies := libraryDependencies.value.map(_ excludeAll (
-    ExclusionRule(organization = "com.lihaoyi", name = "fansi_2.13"),
-    ExclusionRule(organization = "com.lihaoyi", name = "pprint_2.13"),
-    ExclusionRule(organization = "com.lihaoyi", name = "sourcecode_2.13"),
-    ExclusionRule(organization = "org.scala-lang.modules", name = "scala-collection-compat_2.13"),
-  ))
-)
 
 dependencyOverrides ++= Seq(
           "com.lihaoyi" %% "sourcecode" % "0.2.7"
