@@ -108,10 +108,7 @@ lazy val logging = (project in file("logging")).settings(
 )
 
 lazy val impl = (project in file("impl"))
-  .settings(
-    // all your code dependencies + slf4j-api
-    libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.25"
-  )
+  .settings()
   .dependsOn(logging)
 
 dependencyOverrides ++= Seq(
@@ -126,8 +123,6 @@ ThisBuild / assemblyMergeStrategy := {
   case PathList("ch", "qos", xs @ _*) => MergeStrategy.first
   case PathList("com", "outr", xs @ _*) => MergeStrategy.first
   case PathList("javax", "annotation", xs @ _*) => MergeStrategy.first
-  //case PathList("org", "apache", "tomcat-annotations-api", xs @ _*)         => MergeStrategy.first
-  //case PathList("javax", "activation", "activation", xs @ _*)         => MergeStrategy.discard
   case PathList("com", "sun", "activation", xs @ _*) => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "ExecutionInfo$.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "ExecutionInfo.class" => MergeStrategy.last
@@ -136,7 +131,6 @@ ThisBuild / assemblyMergeStrategy := {
   case PathList(ps @ _*) if ps.last endsWith "Row.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "reflect.properties" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "io.netty.versions.properties" => MergeStrategy.last
-  //case PathList(ps @ _*) if ps.last endsWith "native-image.properties" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "reflection-config.json" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "module-info.class" => MergeStrategy.last
   case PathList(ps @ _*) if ps.last endsWith "StaticLoggerBinder.class" => MergeStrategy.last

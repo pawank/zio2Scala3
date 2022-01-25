@@ -1,25 +1,8 @@
-import Dependencies.Blindsight.{
-  blindsightGenric,
-  blindsightInspection,
-  blindsightJsonld,
-  blindsightLogbackStructuredConfig,
-  blindsightLogstash,
-  blindsightRingbuffer,
-  blindsightScripting,
-}
-import Dependencies.Caliban.{ caliban, calibanFederation, calibanTapir, calibanZioHttp }
-import Dependencies.Logging.{
-  blackliteLogback,
-  janino,
-  jansi,
-  julToSlf4j,
-  logback,
-  logbackUniqueId,
-  logstashLogbackEncoder,
-  terseLogbackClassic,
-}
-import Dependencies.Quill.{ quillJdbc, quillOrientdb, quillPostgresAsync, quillSql, quillZio }
-import Dependencies.Refined.{ refinedCore, refinedScalaz, refinedScodec }
+import Dependencies.Blindsight.{blindsightGenric, blindsightInspection, blindsightJsonld, blindsightLogbackStructuredConfig, blindsightLogstash, blindsightRingbuffer, blindsightScripting}
+import Dependencies.Caliban.{caliban, calibanFederation, calibanTapir, calibanZioHttp}
+import Dependencies.Logging.{blackliteLogback, janino, jansi, julToSlf4j, logback, logbackUniqueId, logstashLogbackEncoder, slf4jApi, terseLogbackClassic}
+import Dependencies.Quill.{quillJdbc, quillOrientdb, quillPostgresAsync, quillSql, quillZio}
+import Dependencies.Refined.{refinedCore, refinedScalaz, refinedScodec}
 import sbt._
 import Keys._
 import Versions._
@@ -152,6 +135,7 @@ object Dependencies {
     val jansi = "org.fusesource.jansi" % "jansi" % "1.17.1"
     val julToSlf4j = "org.slf4j" % "jul-to-slf4j" % "1.7.30"
 
+    val slf4jApi = "org.slf4j" % "slf4j-api" % "1.7.25"
     // https://github.com/tersesystems/blacklite#logback
     val blackliteLogback = "com.tersesystems.blacklite" % "blacklite-logback" % blackliteVersion
     // https://github.com/tersesystems/blacklite#codec
@@ -214,6 +198,7 @@ object Dependencies {
     janino,
     jansi,
     julToSlf4j,
+    slf4jApi,
     pprint,
     blackliteLogback,
     terseLogbackClassic,
@@ -235,7 +220,7 @@ object Dependencies {
   )
 
   lazy val allDependencies =
-    commonDependencies ++ webDependencies ++ dbDependencies ++ loggingDependencies ++ utilitiesDependencies ++ graphQLDependencies
+    commonDependencies ++ webDependencies ++ dbDependencies ++ utilitiesDependencies ++ graphQLDependencies
 
   val testDependencies: Seq[ModuleID] =
     Seq(Zio.zioTest, Zio.zioTestSbt) ++ Seq(
