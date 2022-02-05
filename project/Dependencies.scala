@@ -124,11 +124,11 @@ object Dependencies {
   }
 
 
-  val jwtScala = "com.github.jwt-scala" %% "jwt-core" % "9.0.2"
+  val jwtScala = "com.github.jwt-scala" %% "jwt-core" % jwtCoreVersion
   val zioHttp = "io.d11" %% "zhttp" % zioHttpVersion
-  val postgresql = "org.postgresql" % "postgresql" % "42.2.8"
+  val postgresql = "org.postgresql" % "postgresql" % postgresqlVersion
 
-  val pprint = "com.lihaoyi" %% "pprint" % "0.7.1"
+  val pprint = "com.lihaoyi" %% "pprint" % pprintVersion
 
   object Logging {
     // Basic Logback

@@ -3,7 +3,7 @@ import Dependencies._
 
 enablePlugins(JavaAppPackaging)
 
-ThisBuild / scalaVersion := "3.1.0"
+ThisBuild / scalaVersion := "3.1.1"
 ThisBuild / version := "0.0.1"
 ThisBuild / organization := "co.rapidor"
 ThisBuild / organizationName := "acelr"
