@@ -56,6 +56,10 @@ object Examples {
   }
 }
 
+val app = Http.collect[Request] {
+    case Method.GET -> Root / "text" => Response.text("Hello World!")
+  }
+
 object Main extends ZIOAppDefault:
   override def run = {
     val program = (for {
@@ -63,6 +67,7 @@ object Main extends ZIOAppDefault:
       v <- Examples.testProtoQuill()
       _ <-
         ZIO.logDebug(v.toString())
+      //_ <- Server.start(8090, app)
       _ <- ZIO.log("Stopping the program")
     } yield ())
       .provideCustom(Console.live ++ Clock.live ++ DatabaseHistoryServiceLive.layer)
